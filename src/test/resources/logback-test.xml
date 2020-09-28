@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5.5p [%-20.20t] %m \(%F:%L\)%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="stderr" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.err</target>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5.5p [%-20.20t] %m \(%F:%L\)%n</pattern>
+		</encoder>
+	</appender>
+
+	<root>
+		<appender-ref ref="stdout" />
+		<level value="ERROR" />
+	</root>
+
+	<logger name="de.mcmics">
+		<level value="INFO" />
+	</logger>
+</configuration>

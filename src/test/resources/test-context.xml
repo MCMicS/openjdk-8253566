@@ -1,0 +1,50 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<context:annotation-config />
+
+	<!-- setup all bean automatically by @Component,@Service,@Repository,@Controller -->
+	<context:component-scan base-package="de.mcmics.user.business" scoped-proxy="interfaces"/>
+	<context:component-scan base-package="de.mcmics.common.base.validation" scoped-proxy="interfaces"/>
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	<aop:aspectj-autoproxy />
+
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:derby:memory:test-derbydb" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+
+		<property name="initialSize" value="3" />
+		<property name="maxActive" value="6" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="jdk15-8253566" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform" value="org.hibernate.dialect.DerbyTenSevenDialect" />
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>
